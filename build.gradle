@@ -1,7 +1,13 @@
 buildscript {
 	repositories {
-		gradlePluginPortal()
-		maven { url "https://repo.spring.io/plugins-release" }
+		mavenLocal()
+		maven { url "https://maven.aliyun.com/repository/public" }
+		maven { url "https://maven.aliyun.com/repository/google" }
+		maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+		maven { url "https://maven.aliyun.com/repository/spring" }
+		maven { url "https://maven.aliyun.com/repository/spring-plugin" }
+		mavenCentral()
+		gradlePluginPortal() // 保留官方插件仓库作为备用
 	}
 	dependencies {
 		classpath("io.spring.gradle:propdeps-plugin:0.0.9.RELEASE")
@@ -13,8 +19,8 @@ buildscript {
 plugins {
 	id "io.spring.dependency-management" version "1.0.7.RELEASE" apply false
 	id "org.jetbrains.kotlin.jvm" version "1.2.71" apply false
-	id "org.jetbrains.dokka" version "0.9.18"
-	id "org.asciidoctor.convert" version "1.5.8"
+//	id "org.jetbrains.dokka" version "0.9.18"
+//	id "org.asciidoctor.convert" version "1.5.8"
 }
 
 ext {
@@ -148,6 +154,12 @@ configure(allprojects) { project ->
 	}
 
 	repositories {
+		mavenLocal()
+		maven { url "https://maven.aliyun.com/repository/public" }
+		maven { url "https://maven.aliyun.com/repository/google" }
+		maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+		maven { url "https://maven.aliyun.com/repository/spring" }
+		maven { url "https://maven.aliyun.com/repository/spring-plugin" }
 		mavenCentral()
 		maven { url "https://repo.spring.io/libs-spring-framework-build" }
 	}
@@ -214,39 +226,39 @@ configure(subprojects - project(":spring-build-src")) { subproject ->
 		}
 	}
 
-	javadoc {
-		description = "Generates project-level javadoc for use in -javadoc jar"
-
-		options.encoding = "UTF-8"
-		options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
-		options.author = true
-		options.header = project.name
-		options.use = true
-		options.links(project.ext.javadocLinks)
-		options.addStringOption("Xdoclint:none", "-quiet")
-
-		// Suppress warnings due to cross-module @see and @link references.
-		// Note that global 'api' task does display all warnings.
-		logging.captureStandardError LogLevel.INFO
-		logging.captureStandardOutput LogLevel.INFO  // suppress "## warnings" message
-	}
-
-	task sourcesJar(type: Jar, dependsOn: classes) {
-		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-		classifier = "sources"
-		from sourceSets.main.allSource
-		// Don't include or exclude anything explicitly by default. See SPR-12085.
-	}
-
-	task javadocJar(type: Jar) {
-		classifier = "javadoc"
-		from javadoc
-	}
-
-	artifacts {
-		archives sourcesJar
-		archives javadocJar
-	}
+//	javadoc {
+//		description = "Generates project-level javadoc for use in -javadoc jar"
+//
+//		options.encoding = "UTF-8"
+//		options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+//		options.author = true
+//		options.header = project.name
+//		options.use = true
+//		options.links(project.ext.javadocLinks)
+//		options.addStringOption("Xdoclint:none", "-quiet")
+//
+//		// Suppress warnings due to cross-module @see and @link references.
+//		// Note that global 'api' task does display all warnings.
+//		logging.captureStandardError LogLevel.INFO
+//		logging.captureStandardOutput LogLevel.INFO  // suppress "## warnings" message
+//	}
+//
+//	task sourcesJar(type: Jar, dependsOn: classes) {
+//		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//		classifier = "sources"
+//		from sourceSets.main.allSource
+//		// Don't include or exclude anything explicitly by default. See SPR-12085.
+//	}
+//
+//	task javadocJar(type: Jar) {
+//		classifier = "javadoc"
+//		from javadoc
+//	}
+//
+//	artifacts {
+//		archives sourcesJar
+//		archives javadocJar
+//	}
 }
 
 configure(rootProject) {
@@ -254,7 +266,7 @@ configure(rootProject) {
 
 	apply plugin: "groovy"
 	apply from: "${gradleScriptDir}/jdiff.gradle"
-	apply from: "${gradleScriptDir}/docs.gradle"
+//	apply from: "${gradleScriptDir}/docs.gradle"
 
 	dependencyManagement {
 		imports {
@@ -285,9 +297,9 @@ configure(rootProject) {
 	}
 
 	artifacts {
-		archives docsZip
-		archives schemaZip
-		archives distZip
+//		archives docsZip
+//		archives schemaZip
+//		archives distZip
 	}
 
 	wrapper {
