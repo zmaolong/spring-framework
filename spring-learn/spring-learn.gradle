@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'eclipse'  // 若使用Eclipse
+    id 'idea'     // 若使用IDEA
+}
+
+description = "Spring Learn Module"
+
+group = "org.springframework"
+version = "5.1.12.BUILD-SNAPSHOT"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    // 核心：依赖spring-context模块
+    api(project(":spring-context"))
+
+    // 其他依赖
+    api("org.aspectj:aspectjweaver:1.8.6")
+    testImplementation("junit:junit:4.12")
+}
+
+// 继承根项目的仓库配置（关键：确保依赖能被解析）
+repositories {
+    mavenCentral()
+}
